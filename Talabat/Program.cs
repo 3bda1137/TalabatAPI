@@ -26,7 +26,6 @@ namespace Talabat
 
             #region MigrateAsync
 
-
             //use 'using' to dispose all resources After Finish
             using var scope = app.Services.CreateScope();
             var services = scope.ServiceProvider;
@@ -36,6 +35,7 @@ namespace Talabat
             try
             {
                 await dbcontext.Database.MigrateAsync();
+                await StoreDataSeeding.AddDateSeeding(dbcontext);
 
             }
             catch (Exception ex)
