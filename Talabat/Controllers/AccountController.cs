@@ -11,5 +11,10 @@ namespace Talabat.Controllers
         {
             return Ok();
         }
+        public IActionResult Login()
+        {
+            return Ok();
+        }
+
     }
 }
