@@ -7,5 +7,9 @@ namespace Talabat.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
+        public IActionResult Register()
+        {
+            return Ok();
+        }
     }
 }
