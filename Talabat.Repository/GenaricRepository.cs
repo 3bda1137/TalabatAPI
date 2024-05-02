@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Talabat.Core.Entities;
 using Talabat.Core.Repositories.Contract;
+using Talabat.Core.Specifications;
 using Talabat.Repository.Data;
 
 namespace Talabat.Repository
@@ -23,9 +24,24 @@ namespace Talabat.Repository
             return await storeContext.Set<T>().ToListAsync();
         }
 
+        public async Task<IEnumerable<T>> GetAllWithSpecAsync(ISpecifications<T> specification)
+        {
+            return await ApplySpecification(specification).ToListAsync();
+        }
+
         public Task<T?> GetAsync(int id)
         {
             return storeContext.Set<T>().FirstOrDefaultAsync(entity=>entity.ID == id);
+        }
+
+        public async Task<T?> GetWithSpecAsync(ISpecifications<T> specification)
+        {
+            return await ApplySpecification(specification).FirstOrDefaultAsync();
+        }
+
+        private IQueryable<T> ApplySpecification(ISpecifications<T> specification)
+        {
+            return SpecificationEvaluator<T>.CreateQuery(storeContext.Set<T>(), specification);
         }
     }
 }
